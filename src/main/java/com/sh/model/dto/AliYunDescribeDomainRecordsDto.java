@@ -22,34 +22,34 @@ import lombok.experimental.Accessors;
 public class AliYunDescribeDomainRecordsDto extends AliYunBaseDto{
     
     @CustomMapKey("Lang")
-    private String Lang;
+    private String lang;
     @CustomMapKey("DomainName")
-    private String DomainName;
+    private String domainName;
     @CustomMapKey("PageNumber")
-    private Integer PageNumber;
+    private Integer pageNumber;
     @CustomMapKey("PageSize")
-    private Integer PageSize;
+    private Integer pageSize;
     @CustomMapKey("KeyWord")
-    private String KeyWord;
+    private String keyWord;
     @CustomMapKey("RRKeyWord")
-    private String RRKeyWord;
+    private String rRKeyWord;
     @CustomMapKey("TypeKeyWord")
-    private String TypeKeyWord;
+    private String typeKeyWord;
     @CustomMapKey("ValueKeyWord")
-    private String ValueKeyWord;
+    private String valueKeyWord;
     @CustomMapKey("OrderBy")
-    private String OrderBy;
+    private String oOrderBy;
     @CustomMapKey("Direction")
-    private String Direction;
+    private String direction;
     @CustomMapKey("SearchMode")
-    private String SearchMode;
+    private String searchMode;
     @CustomMapKey("GroupId")
-    private Integer GroupId;
+    private Integer groupId;
     @CustomMapKey("Type")
-    private String Type;
+    private String type;
     @CustomMapKey("Line")
-    private String Line;
+    private String line;
     @CustomMapKey("Status")
-    private String Status;
+    private String status;
 
 }

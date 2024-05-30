@@ -1,7 +1,12 @@
 package com.sh.utils;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.aliyun.teaopenapi.models.OpenApiRequest;
+import com.sh.model.dto.AliYunConfigProperties;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Optional;
@@ -13,26 +18,39 @@ import java.util.Optional;
  * @Date: 2024/3/5 13:42
  * @Author: SH
  */
+@Component
 public class AliYunUtil {
     
-    private static final String ACCESS_KEY_ID = "";
-    private static final String ACCESS_KEY_SECRET = "";
+    private static  String ACCESS_KEY_ID ;
+    private static  String ACCESS_KEY_SECRET ;
+    private static  String ENDPOINT ;
     
+    @Resource
+    private AliYunConfigProperties aliYunConfigProperties;
+    
+    @PostConstruct
+    private void init(){
+        ACCESS_KEY_ID = aliYunConfigProperties.getAccessKeyId();
+        ACCESS_KEY_SECRET = aliYunConfigProperties.getAccessKeySecret();
+        ENDPOINT = aliYunConfigProperties.getEndpoint();
+    }
     /**
      * 使用AK&SK初始化账号Client
-     * @param accessKeyId
-     * @param accessKeySecret
      * @return Client
      * @throws Exception
      */
     private static com.aliyun.teaopenapi.Client createClient(String accessKeyId, String accessKeySecret) throws Exception {
-        com.aliyun.teaopenapi.models.Config config = new com.aliyun.teaopenapi.models.Config()
-                // 必填，您的 AccessKey ID
-                .setAccessKeyId(accessKeyId)
-                // 必填，您的 AccessKey Secret
-                .setAccessKeySecret(accessKeySecret);
-        // Endpoint 请参考 https://api.aliyun.com/product/Alidns
-        config.endpoint = "alidns.cn-hangzhou.aliyuncs.com";
+        com.aliyun.teaopenapi.models.Config config;
+        if (StrUtil.isBlank(accessKeyId) || StrUtil.isBlank(accessKeySecret)) {
+            config = new com.aliyun.teaopenapi.models.Config()
+                    .setAccessKeyId(ACCESS_KEY_ID)
+                    .setAccessKeySecret(ACCESS_KEY_SECRET);
+        } else {
+            config = new com.aliyun.teaopenapi.models.Config()
+                    .setAccessKeyId(accessKeyId)
+                    .setAccessKeySecret(accessKeySecret);
+        }
+        config.endpoint = ENDPOINT;
         return new com.aliyun.teaopenapi.Client(config);
     }
     
@@ -40,7 +58,7 @@ public class AliYunUtil {
      * API 相关
      * @return OpenApi.Params
      */
-    private static com.aliyun.teaopenapi.models.Params createApiInfo(String action,String method) throws Exception {
+    private static com.aliyun.teaopenapi.models.Params createApiInfo(String action,String method) {
         com.aliyun.teaopenapi.models.Params params = new com.aliyun.teaopenapi.models.Params()
                 // 接口名称
                 .setAction(action)
@@ -83,7 +101,7 @@ public class AliYunUtil {
     }
     private static Map<String, ?> toPost(Object paramDto,String method) throws Exception {
         Map<String, Object> map = BeanUtils.objectToMap(paramDto);
-        com.aliyun.teaopenapi.Client client = createClient(ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+        com.aliyun.teaopenapi.Client client = createClient(null, null);
         com.aliyun.teaopenapi.models.Params params = createApiInfo(String.valueOf(BeanUtils.getFieldValue(paramDto, "action")),method);
         com.aliyun.teautil.models.RuntimeOptions runtime = new com.aliyun.teautil.models.RuntimeOptions();
         com.aliyun.teaopenapi.models.OpenApiRequest request = new OpenApiRequest().setQuery(com.aliyun.openapiutil.Client.query(map));

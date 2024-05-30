@@ -26,30 +26,30 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ManageIpv6 {
+public class ManageIpv6ServiceImpl {
     private final SendMail sendMail;
     private final AliYunDnsProperties aliYunDnsProperties;
     
     public void updateDns(){
         log.info("1. 开始查询/更新ipv6");
         String ipv6Address  = Ipv6Util.getLocalIpv6AddressByHttp();
-        log.info("2. 获取到的本地ipv6:  {}", ipv6Address);
+        log.info("2. 获取到的本地ipv6: {}", ipv6Address);
         for (DnsConfigDto dnsConfig : aliYunDnsProperties.getDnsConfig()) {
             try {
                 //查询DNS记录id
                 List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> list = getDnsIdList(dnsConfig);
-                log.info("3. 查询到的DNS记录id:  {}", list);
+                log.info("3. 查询到的DNS记录id: {}", list);
                 //筛选出不一致的本地与云ip
                 list.removeIf(next -> StrUtil.equals(next.getValue(), ipv6Address));
 
                 if (list.isEmpty()){
-                    log.info("ipv6未变化:  {}", ipv6Address);
+                    log.info("ipv6未变化: {}", ipv6Address);
                     continue ;
                 } else {
-                    log.info("ipv6变动:   {}", ipv6Address);
+                    log.info("ipv6变动: {}", ipv6Address);
                     //修改DNS解析
                     update(list, ipv6Address,dnsConfig);
-                    log.info("4. 修改DNS记录:  {}", list);
+                    log.info("4. 修改DNS记录: {}", list);
                 }
             } catch (RuntimeException e) {
                 log.error(String.valueOf(e));
@@ -57,7 +57,7 @@ public class ManageIpv6 {
             }
             //发送邮件
             sendMail.sendTextMailMessage(dnsConfig.getToMail(),"ipv6变化: ",ipv6Address + "   阿里云修改结果: 成功" );
-            log.info("5. 发送邮件:  {}", ipv6Address);
+            log.info("5. 发送邮件: {}", ipv6Address);
         }
     }
     

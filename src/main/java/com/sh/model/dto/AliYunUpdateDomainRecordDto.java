@@ -17,29 +17,29 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class AliYunUpdateDomainRecordDto extends AliYunBaseDto{
     @CustomMapKey("Lang")
-    private String Lang;
+    private String lang;
     
     @CustomMapKey("UserClientIp")
-    private String UserClientIp;
+    private String userClientIp;
     
     @CustomMapKey("RecordId")
-    private String RecordId;
+    private String recordId;
     
     @CustomMapKey("RR")
-    private String RR;
+    private String rR;
     
     @CustomMapKey("Type")
-    private String Type;
+    private String type;
     
     @CustomMapKey("Value")
-    private String Value;
+    private String value;
     
     @CustomMapKey("TTL")
-    private String TTL;
+    private String tTL;
     
     @CustomMapKey("Priority")
-    private String Priority;
+    private String priority;
     
     @CustomMapKey("Line")
-    private String Line;
+    private String line;
 }

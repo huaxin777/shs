@@ -21,13 +21,13 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AliYunAddDomainRecordDto extends AliYunBaseDto{
-    private String Lang;
-    private String UserClientIp;
-    private String DomainName;
-    private String RR;
-    private String Type;
-    private String Value;
-    private String TTL;
-    private String Priority;
-    private String Line;
+    private String lang;
+    private String userClientIp;
+    private String domainName;
+    private String rR;
+    private String type;
+    private String value;
+    private String tTL;
+    private String priority;
+    private String line;
 }

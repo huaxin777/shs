@@ -21,11 +21,11 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class AliYunUpdateDomainRecordRemarkDto extends AliYunBaseDto{
     @CustomMapKey("Lang")
-    private String Lang;
+    private String lang;
     @CustomMapKey("UserClientIp")
-    private String UserClientIp;
+    private String userClientIp;
     @CustomMapKey("RecordId")
-    private String RecordId;
+    private String recordId;
     @CustomMapKey("Remark")
-    private String Remark;
+    private String remark;
 }

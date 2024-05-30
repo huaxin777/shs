@@ -45,7 +45,7 @@ public class BackendWorker {
     
     @PostConstruct
     private static void initThreadPool() {
-        ThreadFactory factory = new ThreadFactoryBuilder().setNameFormat("my_spring-%d").build();
+        ThreadFactory factory = new ThreadFactoryBuilder().setNameFormat("shs-%d").build();
         LinkedBlockingDeque<Runnable> queue = new LinkedBlockingDeque<>(QUEUE_SIZE);
         RejectedExecutionHandler handler = new ThreadPoolExecutor.DiscardOldestPolicy();
         threadPoolExecutor = new ThreadPoolExecutor(

@@ -1,7 +1,7 @@
 package com.sh.scheduled;
 
 import com.sh.model.dto.AliYunDnsProperties;
-import com.sh.service.impl.ManageIpv6;
+import com.sh.service.impl.ManageIpv6ServiceImpl;
 import com.sh.utils.BackendWorker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DnsScheduled {
     private final AliYunDnsProperties aliYunDnsProperties;
-    private final ManageIpv6 manageIpv6;
+    private final ManageIpv6ServiceImpl manageIpv6ServiceImpl;
     
     @Scheduled(fixedRate = 300000)
     public void updateDns(){
         try {
             if (aliYunDnsProperties.getEnable()) {
-                BackendWorker.submit(manageIpv6::updateDns);
+                BackendWorker.submit(manageIpv6ServiceImpl::updateDns);
             }
         } catch (Exception e) {
             log.error("定时任务updateDns执行失败:{}", e.getMessage());

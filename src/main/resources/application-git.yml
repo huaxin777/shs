@@ -1,0 +1,49 @@
+server:
+  port: 1111
+
+spring:
+  mail:
+    host: smtp.qq.com
+    username: @qq.com
+    password:
+    port: 587
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: false
+            required: false
+        debug: false
+
+aliyun:
+  access-key-id:
+  access-key-secret:
+  dns:
+    enable: false
+    dns-config:
+      - access-key-id:
+        access-key-secret:
+        domain-name:  #域名
+        group-id:  # 域名组id
+        to-mail:  #邮件收件人
+
+      - access-key-id:
+        access-key-secret:
+        domain-name:
+        group-id:
+        to-mail:
+
+thread-pool:
+  core-pool-size: 5
+  maximum-pool-size: 10
+  keep-alive-time: 1000 # s
+  queue-size: 100
+
+
+logging:
+  config: classpath:./logback-spring.xml
+  file:
+    path:
+  level:
+    dao: info
