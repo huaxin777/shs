@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AliYunDescribeDomainRecordsDto extends AliYunBaseDto{
-    
+    private String action = "DescribeDomainRecords";
     @CustomMapKey("Lang")
     private String lang;
     @CustomMapKey("DomainName")

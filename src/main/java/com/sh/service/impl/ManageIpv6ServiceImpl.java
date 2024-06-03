@@ -37,7 +37,7 @@ public class ManageIpv6ServiceImpl {
         for (DnsConfigDto dnsConfig : aliYunDnsProperties.getDnsConfig()) {
             try {
                 //查询DNS记录id
-                List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> list = getDnsIdList(dnsConfig);
+                List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> list = getAliYunDnsList(dnsConfig);
                 log.info("3. 查询到的DNS记录id: {}", list);
                 //筛选出不一致的本地与云ip
                 list.removeIf(next -> StrUtil.equals(next.getValue(), ipv6Address));
@@ -65,7 +65,6 @@ public class ManageIpv6ServiceImpl {
         AliYunUpdateDomainRecordDto updateDto = new AliYunUpdateDomainRecordDto()
                 .setValue(ipv6Address)
                 .setType("AAAA");
-        updateDto.setAction("UpdateDomainRecord");
         for (DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord dto : list) {
             updateDto.setLine(dto.getLine());
             updateDto.setRecordId(dto.getRecordId());
@@ -75,10 +74,9 @@ public class ManageIpv6ServiceImpl {
     }
     
     @NotNull
-    private static List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> getDnsIdList(DnsConfigDto dnsConfig) {
+    private static List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> getAliYunDnsList(DnsConfigDto dnsConfig) {
         AliYunDescribeDomainRecordsDto dto = new AliYunDescribeDomainRecordsDto();
         dto.setDomainName(dnsConfig.getDomainName());
-        dto.setAction("DescribeDomainRecords");
         dto.setGroupId(dnsConfig.getGroupId());
         Optional<DescribeDomainRecordsResponse> option = AliYunUtil.sendPost(dto, DescribeDomainRecordsResponse.class,dnsConfig.getAccessKeyId(),dnsConfig.getAccessKeySecret());
         return new ArrayList<>(option.map(DescribeDomainRecordsResponse::getBody)

@@ -16,6 +16,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class AliYunUpdateDomainRecordDto extends AliYunBaseDto{
+    private String action = "UpdateDomainRecord";
+    
     @CustomMapKey("Lang")
     private String lang;
     

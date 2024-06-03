@@ -20,12 +20,8 @@ public class DnsScheduled {
     
     @Scheduled(fixedRate = 300000)
     public void updateDns(){
-        try {
-            if (aliYunDnsProperties.getEnable()) {
-                BackendWorker.submit(manageIpv6ServiceImpl::updateDns);
-            }
-        } catch (Exception e) {
-            log.error("定时任务updateDns执行失败:{}", e.getMessage());
+        if (aliYunDnsProperties.getEnable()) {
+            BackendWorker.submit(manageIpv6ServiceImpl::updateDns);
         }
     }
 }
