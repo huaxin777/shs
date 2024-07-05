@@ -1,7 +1,10 @@
-package com.sh.model.dto;
+package com.sh.model.config;
 
+import com.sh.model.dto.DnsConfigDto;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+
 import java.util.List;
 
 /**
@@ -9,6 +12,7 @@ import java.util.List;
  */
 
 @Data
+@Configuration
 @ConfigurationProperties(
         prefix = "aliyun.dns"
 )

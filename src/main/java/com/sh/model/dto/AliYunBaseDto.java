@@ -17,4 +17,5 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AliYunBaseDto {
+	private String accessKeyId;
 }

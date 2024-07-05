@@ -33,14 +33,9 @@ packagingData	true|false	                                          每行日志�
     <property name="size_max" value="500MB"/>
     <property name="days_max" value="365"/>
 
-    <!--    &lt;!&ndash; linux 日志存储目录 &ndash;&gt;-->
-    <!--    <property name="logback.logDir" value="${user.dir}/../logs"/>-->
-
-    <!-- 分隔符 -->
-    <property name="separator" value="-"/>
 
     <!-- 设置日志格式 -->
-    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}${separator}%-5level${separator}${PID}${separator}%X{requestId}${separator}%t${separator}%-25logger{20}${separator}%-4line${separator}%msg%n"/>
+    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level ${PID} %X{requestId} %t %-25logger{20} %-4line %msg%n"/>
     <!--控制台输出日志设置-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <!--encoder：指定输出日志格式化和字符集-->
@@ -101,7 +96,7 @@ packagingData	true|false	                                          每行日志�
 
 
     <!--将warn、error日志单独存储一份    -->
-    <appender name="errorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">java
+    <appender name="errorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--过滤器，过滤满足条件或者不满足条件的日志
             LevelFilter：级别过滤器，匹配指定的日志级别
             ThresholdFilter：阈值过滤器，匹配等于或高于指定级别的日志

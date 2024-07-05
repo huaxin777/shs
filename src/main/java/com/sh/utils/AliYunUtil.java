@@ -3,7 +3,7 @@ package com.sh.utils;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.aliyun.teaopenapi.models.OpenApiRequest;
-import com.sh.model.dto.AliYunConfigProperties;
+import com.sh.model.config.AliYunConfigProperties;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;

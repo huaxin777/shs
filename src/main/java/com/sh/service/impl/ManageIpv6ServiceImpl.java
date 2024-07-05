@@ -5,7 +5,7 @@ import com.aliyun.alidns20150109.models.DescribeDomainRecordsResponse;
 import com.aliyun.alidns20150109.models.DescribeDomainRecordsResponseBody;
 import com.aliyun.alidns20150109.models.UpdateDomainRecordRemarkResponse;
 import com.sh.model.dto.AliYunDescribeDomainRecordsDto;
-import com.sh.model.dto.AliYunDnsProperties;
+import com.sh.model.config.AliYunDnsProperties;
 import com.sh.model.dto.AliYunUpdateDomainRecordDto;
 import com.sh.model.dto.DnsConfigDto;
 import com.sh.utils.AliYunUtil;
@@ -48,7 +48,7 @@ public class ManageIpv6ServiceImpl {
                 } else {
                     log.info("ipv6变动: {}", ipv6Address);
                     //修改DNS解析
-                    update(list, ipv6Address,dnsConfig);
+//                    update(list, ipv6Address,dnsConfig);
                     log.info("4. 修改DNS记录: {}", list);
                 }
             } catch (RuntimeException e) {
