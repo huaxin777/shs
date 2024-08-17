@@ -48,7 +48,7 @@ public class ManageIpv6ServiceImpl {
                 } else {
                     log.info("ipv6变动: {}", ipv6Address);
                     //修改DNS解析
-//                    update(list, ipv6Address,dnsConfig);
+                    update(list, ipv6Address,dnsConfig);
                     log.info("4. 修改DNS记录: {}", list);
                 }
             } catch (RuntimeException e) {
