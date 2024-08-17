@@ -94,6 +94,26 @@ packagingData	true|false	                                          每行日志�
 
     </appender>
 
+    <appender name="warnLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${logback.logDir}/warn.log</File>
+        <append>true</append>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <prudent>false</prudent>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${logback.logDir}/arch/warn/warn.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <maxHistory>${days_max}</maxHistory>
+            <maxFileSize>${size_max}</maxFileSize>
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
 
     <!--将warn、error日志单独存储一份    -->
     <appender name="errorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -103,7 +123,7 @@ packagingData	true|false	                                          每行日志�
         -->
 
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>WARN</level>
+            <level>ERROR</level>
         </filter>
         <!--日志名称，如果没有File 属性，那么只会使用FileNamePattern的文件路径规则
             如果同时有<File>和<FileNamePattern>，那么当天日志是<File>，明天会自动把今天
@@ -141,6 +161,7 @@ packagingData	true|false	                                          每行日志�
     <root level="${level}">
         <appender-ref ref="console"/>
         <appender-ref ref="infoLog"/>
+        <appender-ref ref="warnLog"/>
         <appender-ref ref="errorLog"/>
     </root>
 
