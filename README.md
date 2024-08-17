@@ -1,4 +1,4 @@
-# IP6Syncer
+# shs
 
 [![GitHub](https://img.shields.io/badge/GitHub-Project-green.svg)](https://github.com/yourusername/IP6Syncer)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
