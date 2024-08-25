@@ -8,6 +8,7 @@ import com.sh.model.dto.AliYunDescribeDomainRecordsDto;
 import com.sh.model.config.AliYunDnsProperties;
 import com.sh.model.dto.AliYunUpdateDomainRecordDto;
 import com.sh.model.dto.DnsConfigDto;
+import com.sh.service.ManageIpv6Service;
 import com.sh.utils.AliYunUtil;
 import com.sh.utils.Ipv6Util;
 import com.sh.utils.SendMail;
@@ -26,7 +27,8 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ManageIpv6ServiceImpl {
+public class ManageIpv6ServiceImpl implements ManageIpv6Service {
+    
     private final SendMail sendMail;
     private final AliYunDnsProperties aliYunDnsProperties;
     
@@ -51,7 +53,7 @@ public class ManageIpv6ServiceImpl {
                     update(list, ipv6Address,dnsConfig);
                     log.info("4. 修改DNS记录: {}", list);
                 }
-            } catch (RuntimeException e) {
+            } catch (Exception e) {
                 log.error(String.valueOf(e));
                 sendMail.sendTextMailMessage(dnsConfig.getToMail(),"ipv6变化: ",ipv6Address + "   阿里云修改结果: 失败---" + e);
             }
@@ -61,7 +63,7 @@ public class ManageIpv6ServiceImpl {
         }
     }
     
-    private static void update(List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> list, String ipv6Address,DnsConfigDto dnsConfig) {
+    private void update(List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> list, String ipv6Address,DnsConfigDto dnsConfig) {
         AliYunUpdateDomainRecordDto updateDto = new AliYunUpdateDomainRecordDto()
                 .setValue(ipv6Address)
                 .setType("AAAA");
@@ -73,8 +75,7 @@ public class ManageIpv6ServiceImpl {
         }
     }
     
-    @NotNull
-    private static List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> getAliYunDnsList(DnsConfigDto dnsConfig) {
+    private List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> getAliYunDnsList(DnsConfigDto dnsConfig) {
         AliYunDescribeDomainRecordsDto dto = new AliYunDescribeDomainRecordsDto();
         dto.setDomainName(dnsConfig.getDomainName());
         dto.setGroupId(dnsConfig.getGroupId());

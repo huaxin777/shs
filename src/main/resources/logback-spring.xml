@@ -77,7 +77,7 @@ packagingData	true|false	                                          每行日志�
         -->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中-->
-            <FileNamePattern>${logback.logDir}/arch/info/info.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <FileNamePattern>${logback.logDir}/arch/info/%d{yyyy-MM-dd}.%i.info.log</FileNamePattern>
 
             <!--日志保留时长（天）-->
             <maxHistory>${days_max}</maxHistory>
@@ -103,7 +103,7 @@ packagingData	true|false	                                          每行日志�
         </encoder>
         <prudent>false</prudent>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <FileNamePattern>${logback.logDir}/arch/warn/warn.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <FileNamePattern>${logback.logDir}/arch/warn/%d{yyyy-MM-dd}.%i.warn.log</FileNamePattern>
             <maxHistory>${days_max}</maxHistory>
             <maxFileSize>${size_max}</maxFileSize>
             <cleanHistoryOnStart>false</cleanHistoryOnStart>
@@ -133,7 +133,7 @@ packagingData	true|false	                                          每行日志�
         <!--滚动策略，按照时间滚动 TimeBasedRollingPolicy-->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
-            <FileNamePattern>${logback.logDir}/arch/error/error.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <FileNamePattern>${logback.logDir}/arch/error/%d{yyyy-MM-dd}.%i.error.log</FileNamePattern>
             <!-- 单个日志文件最多 100MB -->
             <maxFileSize>${size_max}</maxFileSize>
             <!--只保留最近30天的日志-->
