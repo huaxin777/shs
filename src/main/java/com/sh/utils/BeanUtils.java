@@ -14,6 +14,7 @@ import java.util.Map;
  * @Author: SH
  */
 public class BeanUtils {
+    
     public static Map<String, Object> objectToMap(Object obj) throws IllegalAccessException {
         Map<String, Object> map = new HashMap<>();
         Class<?> clazz = obj.getClass();
