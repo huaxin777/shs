@@ -4,8 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.aliyun.alidns20150109.models.DescribeDomainRecordsResponse;
 import com.aliyun.alidns20150109.models.DescribeDomainRecordsResponseBody;
 import com.aliyun.alidns20150109.models.UpdateDomainRecordRemarkResponse;
-import com.sh.model.dto.AliYunDescribeDomainRecordsDto;
 import com.sh.model.config.AliYunDnsProperties;
+import com.sh.model.dto.AliYunDescribeDomainRecordsDto;
 import com.sh.model.dto.AliYunUpdateDomainRecordDto;
 import com.sh.model.dto.DnsConfigDto;
 import com.sh.utils.AliYunUtil;
@@ -27,8 +27,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ManageIpv6ServiceImpl {
+    
     private final SendMail sendMail;
     private final AliYunDnsProperties aliYunDnsProperties;
+    private static final String DNS_TYPE = "AAAA";
     
     public void updateDns(){
         log.info("1. 开始查询/更新ipv6");
@@ -36,10 +38,8 @@ public class ManageIpv6ServiceImpl {
         log.info("2. 获取到的本地ipv6: {}", ipv6Address);
         for (DnsConfigDto dnsConfig : aliYunDnsProperties.getDnsConfig()) {
             try {
-                //查询DNS记录id
                 List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> list = getAliYunDnsList(dnsConfig);
                 log.info("3. 查询到的DNS记录id: {}", list);
-                //筛选出不一致的本地与云ip
                 list.removeIf(next -> StrUtil.equals(next.getValue(), ipv6Address));
 
                 if (list.isEmpty()){
@@ -47,12 +47,11 @@ public class ManageIpv6ServiceImpl {
                     continue ;
                 } else {
                     log.info("ipv6变动: {}", ipv6Address);
-                    //修改DNS解析
                     update(list, ipv6Address,dnsConfig);
                     log.info("4. 修改DNS记录: {}", list);
                 }
-            } catch (RuntimeException e) {
-                log.error(String.valueOf(e));
+            } catch (Exception e) {
+                log.error(e.toString());
                 sendMail.sendTextMailMessage(dnsConfig.getToMail(),"ipv6变化: ",ipv6Address + "   阿里云修改结果: 失败---" + e);
             }
             //发送邮件
@@ -64,7 +63,7 @@ public class ManageIpv6ServiceImpl {
     private static void update(List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> list, String ipv6Address,DnsConfigDto dnsConfig) {
         AliYunUpdateDomainRecordDto updateDto = new AliYunUpdateDomainRecordDto()
                 .setValue(ipv6Address)
-                .setType("AAAA");
+                .setType(DNS_TYPE);
         for (DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord dto : list) {
             updateDto.setLine(dto.getLine());
             updateDto.setRecordId(dto.getRecordId());

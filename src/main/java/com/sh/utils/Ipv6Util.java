@@ -1,6 +1,5 @@
 package com.sh.utils;
 
-import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.Inet6Address;
@@ -11,6 +10,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Optional;
+
+/**
+ * @author SH
+ */
 @Slf4j
 public class Ipv6Util {
     
@@ -36,10 +40,10 @@ public class Ipv6Util {
             throw new RuntimeException("Failed to get network interfaces: " + e.getMessage());
         }
         
-        String ipv6 = ipv6List.stream().max(Comparator.comparingInt(String::length)).get();
-        
-        if (StrUtil.isBlankIfStr(ipv6)){
-            throw new RuntimeException("获取ipv6失败！！！");
+        Optional<String> max = ipv6List.stream().max(Comparator.comparingInt(String::length));
+        String ipv6 = "";
+        if (max.isPresent()){
+            ipv6 = max.get();
         }
         
         log.info("IPv6 Address on wlo1: {}", ipv6);
@@ -51,7 +55,8 @@ public class Ipv6Util {
         String getIpv6Url = "https://6.ipw.cn";
         try  {
             String responseContent = HttpClientHelper.sendHttpGetRequest(getIpv6Url);
-            ipv6Address = parseIPv6Address(responseContent);
+            Ipv6Util ipv6Util = new Ipv6Util();
+            ipv6Address = ipv6Util.parseIpv6Address(responseContent);
             log.info("{}  获取的本机IPv6地址: {}", getIpv6Url, ipv6Address);
         } catch (Exception e) {
             ipv6Address = getLocalIpv6AddressByHostname();
@@ -60,7 +65,7 @@ public class Ipv6Util {
         return ipv6Address;
     }
     
-    private static String parseIPv6Address(String content) {
+    private String parseIpv6Address(String content) {
         // 这里根据6.ipw.cn返回的实际内容格式编写解析逻辑
         // 假设地址在响应的首行
         return content.split("\n")[0];
