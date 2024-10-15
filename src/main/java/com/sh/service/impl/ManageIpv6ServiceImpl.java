@@ -8,6 +8,7 @@ import com.sh.model.config.AliYunDnsProperties;
 import com.sh.model.dto.AliYunDescribeDomainRecordsDto;
 import com.sh.model.dto.AliYunUpdateDomainRecordDto;
 import com.sh.model.dto.DnsConfigDto;
+import com.sh.service.ManageIpv6Service;
 import com.sh.utils.AliYunUtil;
 import com.sh.utils.Ipv6Util;
 import com.sh.utils.SendMail;
@@ -26,7 +27,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ManageIpv6ServiceImpl {
+public class ManageIpv6ServiceImpl implements ManageIpv6Service {
     
     private final SendMail sendMail;
     private final AliYunDnsProperties aliYunDnsProperties;
