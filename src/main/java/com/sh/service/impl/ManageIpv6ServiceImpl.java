@@ -10,6 +10,7 @@ import com.sh.model.dto.AliYunUpdateDomainRecordDto;
 import com.sh.model.dto.DnsConfigDto;
 import com.sh.service.ManageIpv6Service;
 import com.sh.utils.AliYunUtil;
+import com.sh.utils.DateUtils;
 import com.sh.utils.Ipv6Util;
 import com.sh.utils.SendMail;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class ManageIpv6ServiceImpl implements ManageIpv6Service {
     private static final String DNS_TYPE = "AAAA";
     
     public void updateDns(){
+        DateUtils.getBeginDayOfTomorrow();
         log.info("1. 开始查询/更新ipv6");
         String ipv6Address  = Ipv6Util.getLocalIpv6AddressByHttp();
         log.info("2. 获取到的本地ipv6: {}", ipv6Address);
