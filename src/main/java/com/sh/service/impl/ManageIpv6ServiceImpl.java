@@ -10,6 +10,7 @@ import com.sh.model.dto.AliYunUpdateDomainRecordDto;
 import com.sh.model.dto.DnsConfigDto;
 import com.sh.service.ManageIpv6Service;
 import com.sh.utils.AliYunUtil;
+import com.sh.utils.BeanToMap;
 import com.sh.utils.DateUtils;
 import com.sh.utils.Ipv6Util;
 import com.sh.utils.SendMail;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -36,10 +38,18 @@ public class ManageIpv6ServiceImpl implements ManageIpv6Service {
     
     public void updateDns(){
         DateUtils.getBeginDayOfTomorrow();
+        
         log.info("1. 开始查询/更新ipv6");
         String ipv6Address  = Ipv6Util.getLocalIpv6AddressByHttp();
         log.info("2. 获取到的本地ipv6: {}", ipv6Address);
         for (DnsConfigDto dnsConfig : aliYunDnsProperties.getDnsConfig()) {
+			Map<String, Object> map;
+			try {
+				map = BeanToMap.objectToMap(dnsConfig);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			log.info(map.toString());
             try {
                 List<DescribeDomainRecordsResponseBody.DescribeDomainRecordsResponseBodyDomainRecordsRecord> list = getAliYunDnsList(dnsConfig);
                 log.info("3. 查询到的DNS记录id: {}", list);
